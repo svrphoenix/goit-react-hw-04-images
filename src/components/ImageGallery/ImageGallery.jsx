@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+// import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { List } from 'components/ImageGallery/ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
