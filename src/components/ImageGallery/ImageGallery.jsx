@@ -1,21 +1,17 @@
 import PropTypes from 'prop-types';
-// import { useEffect, useRef } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { List } from 'components/ImageGallery/ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
 export const ImageGallery = ({ images }) => {
-  // const isMounted = useRef(false);
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    // console.log('Effect:', new Date(), isMounted.current);
-    // if (isMounted.current) {
-    const bodyHeight = document.body.getBoundingClientRect().height;
-    window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
-    // }
-    // return () => {
-    //   isMounted.current = true;
-    // };
+    if (isMounted.current) {
+      const bodyHeight = document.body.getBoundingClientRect().height;
+      window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
+    }
+    isMounted.current = true;
   });
 
   return (
