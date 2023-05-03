@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { List } from 'components/ImageGallery/ImageGallery.styled';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 
 export const ImageGallery = ({ images }) => {
   const isMounted = useRef(false);
 
-  useEffect(() => {
-    if (isMounted.current) {
-      const bodyHeight = document.body.getBoundingClientRect().height;
-      window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
+  useLayoutEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
     }
-    isMounted.current = true;
+    const bodyHeight = document.body.getBoundingClientRect().height;
+    window.scrollTo({ top: bodyHeight, behavior: 'smooth' });
   });
 
   return (
