@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_KEY = '34471861-e8084534cfe7ae4300b245128';
 export const ITEMS_PER_PAGE = 12;
 
-export const readPixabayImages = async (q, page) => {
+export const readPixabayImages = async (q, page, controller) => {
   axios.defaults.baseURL = 'https://pixabay.com/';
   const options = {
     params: {
@@ -14,6 +14,7 @@ export const readPixabayImages = async (q, page) => {
       safesearch: 'true',
       page,
       per_page: ITEMS_PER_PAGE,
+      signal: controller.signal,
     },
   };
   const { data } = await axios('api/', options);

@@ -7,6 +7,7 @@ import { Layout } from './Layout/Layout';
 import { Button } from './Button/Button';
 import { GlobalStyle } from './GlobalStyle';
 import { Loader } from './Loader/Loader';
+import { ScrollToTop } from './ScrollToTop/ScrollToTop';
 
 export const App = () => {
   const [images, setImages] = useState([]);
@@ -27,11 +28,12 @@ export const App = () => {
     if (!query) {
       return;
     }
+    const controller = new AbortController();
 
     const loadImages = async () => {
       setIsLoading(true);
       try {
-        const results = await readPixabayImages(query, page);
+        const results = await readPixabayImages(query, page, controller);
         const images = results.hits.map(
           ({ id, webformatURL, largeImageURL, tags }) => ({
             id,
@@ -51,7 +53,7 @@ export const App = () => {
         }
 
         const isPagination = total > page * ITEMS_PER_PAGE;
-        setImages(prevState => [...prevState, ...images]);
+        setImages(prevImages => [...prevImages, ...images]);
         setIsLoadMore(isPagination);
       } catch (error) {
         toast('Error happened on server. Please, reload webpage.', {
@@ -63,6 +65,9 @@ export const App = () => {
     };
 
     loadImages();
+    return () => {
+      controller.abort();
+    };
   }, [page, query]);
 
   return (
@@ -73,10 +78,11 @@ export const App = () => {
       {!isLoading && isloadMore && (
         <Button
           onClick={() => {
-            setPage(state => state + 1);
+            setPage(prevPage => prevPage + 1);
           }}
         />
       )}
+      <ScrollToTop />
       <Toaster position="top-right" reverseOrder={false} />
       <GlobalStyle />
     </Layout>
